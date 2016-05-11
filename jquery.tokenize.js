@@ -107,6 +107,10 @@
             this.searchInput = $('<input />')
                 .appendTo(this.searchToken);
 
+            if(this.options.placeholder && this.options.placeholder.length > 0) {
+                this.searchInput.attr("placeholder", this.options.placeholder);
+            }
+
             if(this.options.searchMaxLength > 0){
                 this.searchInput.attr('maxlength', this.options.searchMaxLength)
             }
@@ -146,7 +150,6 @@
             this.tokensContainer.on('click', function(e){
                 e.stopImmediatePropagation();
                 $this.searchInput.get(0).focus();
-                $this.updatePlaceholder();
                 if($this.dropdown.is(':hidden') && $this.searchInput.val() != ''){
                     $this.search();
                 }
@@ -204,7 +207,6 @@
 
             this.resizeSearchInput();
             this.remap(true);
-            this.updatePlaceholder();
 
         },
 
@@ -230,26 +232,8 @@
 
         },
 
-        /**
-         * Update placeholder visibility
-         */
-        updatePlaceholder: function(){
-
-            if(this.options.placeholder){
-                if(this.placeholder == undefined){
-                    this.placeholder = $('<li />').addClass('Placeholder').html(this.options.placeholder);
-                    this.placeholder.insertBefore($('li:first-child', this.tokensContainer));
-                }
-
-                if(this.searchInput.val().length == 0 && $('li.Token', this.tokensContainer).length == 0){
-                    this.placeholder.show();
-                } else {
-                    this.placeholder.hide();
-                }
-            }
-
-        },
-
+        // There was be updatePlaceholder function. This function no longer needed because of placeholder now in input (like placeholder html param).
+        
         /**
          * Display the dropdown
          */
@@ -355,8 +339,12 @@
          */
         resizeSearchInput: function(){
 
-            this.searchInput.attr('size', Number(this.searchInput.val().length)+5);
-            this.updatePlaceholder();
+            var input_size = Number(this.searchInput.val().length);
+            if(this.searchInput.val().length==0 && (this.options.placeholder && this.options.placeholder.length>0)) {
+                input_size = Number(this.options.placeholder.length);
+            }
+
+            this.searchInput.attr('size', input_size+5);
 
         },
 
@@ -470,7 +458,6 @@
          */
         keyup: function(e){
 
-            this.updatePlaceholder();
             switch(e.keyCode){
                 case KEYS.TAB:
                 case KEYS.ENTER:

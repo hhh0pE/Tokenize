@@ -535,7 +535,7 @@
             } else {
 
                 this.debounce(function(){
-                    if(this.ajax()){
+                    if(this.ajax){
                         this.ajax.abort();
                     }
                     this.ajax = $.ajax({

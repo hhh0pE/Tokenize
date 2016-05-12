@@ -233,7 +233,7 @@
         },
 
         // There was be updatePlaceholder function. This function no longer needed because of placeholder now in input (like placeholder html param).
-        
+
         /**
          * Display the dropdown
          */
@@ -338,9 +338,8 @@
          * Resize search input according the value length
          */
         resizeSearchInput: function(){
-
             var input_size = Number(this.searchInput.val().length);
-            if(this.searchInput.val().length==0 && (this.options.placeholder && this.options.placeholder.length>0)) {
+            if(this.options.placeholder && input_size<this.options.placeholder.length) {
                 input_size = Number(this.options.placeholder.length);
             }
 
